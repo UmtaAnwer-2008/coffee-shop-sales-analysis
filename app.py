@@ -63,9 +63,14 @@ fig = px.bar(sales_store, x='store_location', y='sales',
              title='Sales by Store Location')
 st.plotly_chart(fig)
 
+
 # Monthly sales
-df['month'] = pd.to_datetime(df['transaction_date']).dt.month_name()
-monthly_sales = df.groupby('month')['sales'].sum().reset_index()
+all_data['month'] = pd.to_datetime(all_data['transaction_date']).dt.month_name()
+
+monthly_sales = all_data.groupby('month')['sales'].sum().reindex([
+    'January', 'February', 'March',
+    'April', 'May', 'June'
+]).reset_index()
 
 fig = px.bar(monthly_sales, x='month', y='sales',
              title='Monthly Sales')
